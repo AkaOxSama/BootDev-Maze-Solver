@@ -1,6 +1,6 @@
 from tkinter import Tk, BOTH, Canvas
 
-class Window :
+class Window:
     def __init__(self, width: int, height: int) -> None:
         self.__root = Tk()
         self.__root.title("Maze Solver")
@@ -22,3 +22,20 @@ class Window :
 
     def close(self) -> None:
         self.__is_running = False
+
+
+    def draw_line(self, line: "Line", fill_color:str = "black") -> None:
+        line.draw(self.__canvas, fill_color)
+
+class Point:
+    def __init__(self, x: float, y: float) -> None:
+        self.x = x
+        self.y = y
+
+class Line:
+    def __init__(self, point_a: Point, point_b: Point) -> None:
+        self.point_a: Point = point_a
+        self.point_b: Point = point_b
+
+    def draw(self, canvas: Canvas, fill_color: str) -> None:
+        canvas.create_line(self.point_a.x, self.point_a.y, self.point_b.x, self.point_b.y, fill=fill_color, width=2)
