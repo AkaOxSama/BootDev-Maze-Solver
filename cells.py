@@ -34,4 +34,23 @@ class Cell:
             line = Line(Point(x2, y1), Point(x2, y2))
             self.__win.draw_line(line)
 
-    def draw_move(self, to_cell: "Cell")
+    def draw_move(self, to_cell: "Cell", undo: bool = False) -> None:
+            half_self = abs(self.__x2 - self.__x1) // 2
+            
+            center_self_x = half_self + self.__x1
+            center_self_y = half_self + self.__y1
+
+            half_other = abs(to_cell.__x2 - to_cell.__x1) // 2
+
+            center_other_x = half_other + to_cell.__x1
+            center_other_y = half_other + to_cell.__y1
+
+            line_color = ""
+            if undo:
+                 line_color = "gray"
+            else:
+                 line_color = "red"
+
+            line = Line(Point(center_self_x, center_self_y), Point(center_other_x, center_other_y))
+
+            self.__win.draw_line(line, fill_color=line_color)
