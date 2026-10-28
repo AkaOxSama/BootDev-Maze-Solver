@@ -2,7 +2,7 @@ from graphics import Window, Point, Line
 
 
 class Cell:
-    def __init__(self, window: Window) -> None:
+    def __init__(self, window: Window|None = None) -> None:
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -20,6 +20,9 @@ class Cell:
         self.__y1 = y1
         self.__x2 = x2
         self.__y2 = y2
+
+        if self.__win is None:
+            return
         
         if self.has_left_wall:
             line = Line(Point(x1, y1), Point(x1, y2))
@@ -52,5 +55,6 @@ class Cell:
                  line_color = "red"
 
             line = Line(Point(center_self_x, center_self_y), Point(center_other_x, center_other_y))
-
+            if self.__win == None:
+                return 
             self.__win.draw_line(line, fill_color=line_color)
