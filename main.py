@@ -6,11 +6,11 @@ def main() -> None:
     window_width: int = 800
     window_height: int = 600
     # Margin of the borders of the window
-    margin_x: int = 10
-    margin_y: int = 10
+    margin_x: int = 50
+    margin_y: int = 50
     # Number of columns and rows
-    columns: int = 3
-    rows: int = 3
+    columns: int = 20
+    rows: int = 20
     # Size of the cells
     cell_size_x: float = (window_width - 2 * margin_x) / columns
     cell_size_y: float = (window_height - 2 * margin_y) / rows
@@ -24,7 +24,8 @@ def main() -> None:
         columns,
         cell_size_x,
         cell_size_y,
-        win
+        win,
+        10
     )
  
     win.wait_for_close()
