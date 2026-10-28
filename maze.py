@@ -1,53 +1,60 @@
-from graphics import Window
-from cells import Cell
 import time
+
+from cells import Cell
+from graphics import Window
+
 
 class Maze:
     def __init__(
-            self,
-            x1:float,
-            y1:float,
-            num_rows:int,
-            num_cols:int,
-            cell_size_x:float,
-            cell_size_y:float,
-            win: Window|None = None,
+        self,
+        x1: int,
+        y1: int,
+        num_rows: int,
+        num_cols: int,
+        cell_size_x: float,
+        cell_size_y: float,
+        win: Window | None = None,
     ) -> None:
-        self.x: float = x1
-        self.y: float = y1
-        self.rows: int = num_rows
-        self.cols: int = num_cols
-        self.size_x: float = cell_size_x
-        self.size_y: float = cell_size_y
-        self._win: Window|None= win
-
         self.__cells: list[list[Cell]] = []
+        self.__x1 = x1
+        self.__y1 = y1
+        self.__num_rows = num_rows
+        self.__num_cols = num_cols
+        self.__cell_size_x = cell_size_x
+        self.__cell_size_y = cell_size_y
+        self.__win = win
+
         self.__create_cells()
+        self.__break_entrance_and_exit()
 
     def __create_cells(self) -> None:
-        cell = Cell(self._win)
-        for i in range(self.cols):
-            self.__cells.append([])
-            for j in range(self.rows):
-                self.__cells[i].append(cell)
-        if self._win is None:
-            return 
-        for c in range(self.cols):
-            for r in range(self.rows):
-                self.__draw_cell(c, r)
+        for i in range(self.__num_cols):
+            col_cells: list[Cell] = []
+            for j in range(self.__num_rows):
+                col_cells.append(Cell(self.__win))
+            self.__cells.append(col_cells)
+        for i in range(self.__num_cols):
+            for j in range(self.__num_rows):
+                self.__draw_cell(i, j)
 
-    def __draw_cell(self, column: int, row: int) -> None:
-        x1: float = self.x + (row * self.size_x)
-        y1: float = self.y + (column * self.size_y)
-        x2: float = x1 + self.size_x
-        y2: float = y1 + self.size_y
-
-        self.__cells[column][row].draw(x1, y1, x2, y2)
+    def __draw_cell(self, i: int, j: int) -> None:
+        if self.__win is None:
+            return
+        x1 = self.__x1 + i * self.__cell_size_x
+        y1 = self.__y1 + j * self.__cell_size_y
+        x2 = x1 + self.__cell_size_x
+        y2 = y1 + self.__cell_size_y
+        self.__cells[i][j].draw(x1, y1, x2, y2)
         self.__animate()
 
     def __animate(self) -> None:
-        if self._win is None:
+        if self.__win is None:
             return
-        self._win.redraw()
-        time.sleep(0.005)
-        
+        self.__win.redraw()
+        time.sleep(0.05)
+
+    def __break_entrance_and_exit(self) -> None:
+        self.__cells[0][0].has_top_wall = False
+        self.__draw_cell(0, 0)
+        self.__cells[self.__num_cols - 1][self.__num_rows - 1].has_bottom_wall = False
+        self.__draw_cell(self.__num_cols - 1, self.__num_rows - 1)
