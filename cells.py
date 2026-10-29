@@ -50,3 +50,18 @@ class Cell:
     def draw_move(self, to_cell: "Cell", undo: bool = False) -> None:
         if self.__win is None:
             return
+
+        self_half_lenght: float = abs(self.__x2 - self.__x1) // 2
+        self_cell_center_x: float = self_half_lenght + self.__x1
+        self_cell_center_y: float = self_half_lenght + self.__y1
+
+        other_half_lenght: float = abs(to_cell.__x2 - to_cell.__x1) // 2
+        other_cell_center_x: float = other_half_lenght + to_cell.__x1
+        other_cell_center_y: float = other_half_lenght + to_cell.__y1
+
+        line_color = "red"
+        if undo:
+            line_color = "grey"
+
+        line = Line(Point(self_cell_center_x, self_cell_center_y), Point(other_cell_center_x, other_cell_center_y))
+        self.__win.draw_line(line, line_color)
