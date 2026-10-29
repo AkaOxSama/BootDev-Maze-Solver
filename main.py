@@ -1,5 +1,8 @@
+import time
+
 from graphics import Window
 from maze import Maze
+
 
 def main() -> None:
     # Size of the window
@@ -17,6 +20,7 @@ def main() -> None:
     # Creation of the window
     win = Window(window_width, window_height)
     #Creation of the maze
+    print("Maze created")
     maze = Maze(
         margin_x,
         margin_y,
@@ -25,9 +29,17 @@ def main() -> None:
         cell_size_x,
         cell_size_y,
         win,
-        10
+        
     )
- 
+    # Wait an amount of time to see the maze
+    time.sleep(1)
+    # Solve the maze
+    can_be_solved: bool = maze.solve()
+    if can_be_solved:
+        print("Maze Solved!")
+    else:
+        print("Maze can't be solved")
+    # Close the window on exit
     win.wait_for_close()
 
 
